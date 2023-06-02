@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime
+from datetime import date
 from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 from src.database.models import Contact, User
@@ -48,7 +48,8 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         query_mock.offset.return_value = query_mock
         query_mock.limit.return_value = query_mock
         query_mock.all.return_value = contacts
-        result = await get_contacts(limit=10, offset=0, first_name=self.test_contact.first_name, last_name="", email="", user=self.user,
+        result = await get_contacts(limit=10, offset=0, first_name=self.test_contact.first_name,
+                                    last_name="", email="", user=self.user,
                                     db=self.session)
         self.assertEqual(result, contacts)
 
@@ -59,7 +60,8 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         query_mock.offset.return_value = query_mock
         query_mock.limit.return_value = query_mock
         query_mock.all.return_value = contacts
-        result = await get_contacts(limit=10, offset=0, first_name="", last_name=self.test_contact.last_name, email="", user=self.user,
+        result = await get_contacts(limit=10, offset=0, first_name="",
+                                    last_name=self.test_contact.last_name, email="", user=self.user,
                                     db=self.session)
         self.assertEqual(result, contacts)
 
@@ -70,23 +72,23 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
         query_mock.offset.return_value = query_mock
         query_mock.limit.return_value = query_mock
         query_mock.all.return_value = contacts
-        result = await get_contacts(limit=10, offset=0, first_name="", last_name="", email=self.test_contact.email, user=self.user,
+        result = await get_contacts(limit=10, offset=0, first_name="", last_name="",
+                                    email=self.test_contact.email, user=self.user,
                                     db=self.session)
         self.assertEqual(result, contacts)
 
-    @unittest.skip
+    # @unittest.skip
     async def test_get_contacts_birthdays(self):
-        today = datetime.today()
+        today = date.today()
         print(today)
         contacts = [
-            Contact(id=1, first_name='test_name_1', last_name='test_lastname_1', email='test1@example.com', birthday=today),
-            Contact(id=2, first_name='test_name_1', last_name='test_lastname_2', email='test2@example.com', birthday=today),
+            Contact(id=1, first_name='name_1', last_name='test_lastname_1', email='test1@example.com', birthday=today),
+            Contact(id=2, first_name='name_2', last_name='test_lastname_2', email='test2@example.com', birthday=today),
         ]
         self.session.query().filter().offset().limit().all.return_value = contacts
 
-        result = await search_contacts_by_birthday(limit=0, offset=0, user=self.user, db=self.session)
+        result = await search_contacts_by_birthday(limit=10, offset=0, db=self.session, user=self.user)
         self.assertEqual(result, contacts)
-
 
     async def test_create_contact(self):
         body = ContactModel(first_name=self.test_contact.first_name,

@@ -29,8 +29,8 @@ async def get_contacts(limit: int = Query(default=10),
                        last_name: Optional[str] = Query(default=None),
                        email: Optional[str] = Query(default=None),
                        db: Session = Depends(get_db),
-                       _: User = Depends(auth_service.get_current_user)):
-    contact = await repository_contacts.get_contacts(limit, offset, first_name, last_name, email, db)
+                       user: User = Depends(auth_service.get_current_user)):
+    contact = await repository_contacts.get_contacts(limit, offset, first_name, last_name, email, user, db)
     if not contact:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Contacts with requested parameters not found")
@@ -43,8 +43,8 @@ async def get_contacts(limit: int = Query(default=10),
             name='Get a list of all contacts who has birthday during next 7 days')
 async def get_contacts_by_birthday(limit: int = Query(10, le=300), offset: int = 0,
                                    db: Session = Depends(get_db),
-                                   _: User = Depends(auth_service.get_current_user)):
-    contacts = await repository_contacts.search_contacts_by_birthday(limit, offset, db)
+                                   user: User = Depends(auth_service.get_current_user)):
+    contacts = await repository_contacts.search_contacts_by_birthday(limit, offset, user, db)
     if not contacts:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found!")
     return contacts
@@ -55,8 +55,8 @@ async def get_contacts_by_birthday(limit: int = Query(10, le=300), offset: int =
             description='Two requests on 5 seconds')
 async def get_contact(contact_id: int = Path(ge=1),
                       db: Session = Depends(get_db),
-                      _: User = Depends(auth_service.get_current_user)):
-    contact = await repository_contacts.get_contact_by_id(contact_id, db)
+                      user: User = Depends(auth_service.get_current_user)):
+    contact = await repository_contacts.get_contact_by_id(contact_id, user, db)
     if contact is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found!")
     return contact
@@ -67,8 +67,8 @@ async def get_contact(contact_id: int = Path(ge=1),
              description='Two requests on 5 seconds')
 async def create_contact(body: ContactModel,
                          db: Session = Depends(get_db),
-                         _: User = Depends(auth_service.get_current_user)):
-    contact = await repository_contacts.create(body, db)
+                         user: User = Depends(auth_service.get_current_user)):
+    contact = await repository_contacts.create(body, user, db)
     return contact
 
 
@@ -76,8 +76,8 @@ async def create_contact(body: ContactModel,
             dependencies=[Depends(access_update)])
 async def update_contact(body: ContactModel, contact_id: int = Path(ge=1),
                          db: Session = Depends(get_db),
-                         _: User = Depends(auth_service.get_current_user)):
-    contact = await repository_contacts.update(contact_id, body, db)
+                         user: User = Depends(auth_service.get_current_user)):
+    contact = await repository_contacts.update(contact_id, body, user, db)
     if contact is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found!")
     return contact
@@ -87,8 +87,8 @@ async def update_contact(body: ContactModel, contact_id: int = Path(ge=1),
                dependencies=[Depends(access_delete)])
 async def delete_contact(contact_id: int = Path(ge=1),
                          db: Session = Depends(get_db),
-                         _: User = Depends(auth_service.get_current_user)):
-    contact = await repository_contacts.remove(contact_id, db)
+                         user: User = Depends(auth_service.get_current_user)):
+    contact = await repository_contacts.remove(contact_id, user, db)
     if contact is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found!")
     return None
