@@ -46,8 +46,8 @@ async def get_contact_by_id(contact_id: int, user: User, db: Session):
     """
     The get_contact_by_id function takes in a contact_id and user, and returns the contact with that id.
     Args:
-        contact_id (int): The id of the desired Contact object.
-        user (User): The User object associated with this request.
+    contact_id (int): The id of the desired Contact object.
+    user (User): The User object associated with this request.
 
     :param contact_id: int: Get the contact by id
     :param user: User: Get the user_id from the user object
@@ -62,9 +62,9 @@ async def search_contacts_by_birthday(limit: int, offset: int, user: User, db: S
     """
     The search_contacts_by_birthday function searches for contacts with birthdays in the next 7 days.
     Args:
-        limit (int): The number of contacts to return.
-        offset (int): The number of contacts to skip before returning results.
-        user (User): A User object representing the current user making this request. This is used to filter out other users' data from our search results, so that each user only sees their own data and not anyone else's!
+    limit (int): The number of contacts to return.
+    offset (int): The number of contacts to skip before returning results.
+    user (User): A User object representing the current user making this request. This is used to filter out other users' data from our search results, so that each user only sees their own data and not anyone else's!
 
     :param limit: int: Limit the number of results returned
     :param offset: int: Specify the offset of the query
@@ -105,12 +105,12 @@ async def update(contact_id: int, body: ContactModel, user: User, db: Session):
     """
     The update function updates a contact in the database.
     Args:
-        contact_id (int): The id of the contact to update.
-        body (ContactModel): The updated information for the specified user's
-            contact. This is passed as JSON data in a request body, and must
-            contain all fields that are not nullable in ContactModel, including
-            first_name, last_name, email and phone number. It may also include
-            birthday and additional data if desired by the user making this call.
+    contact_id (int): The id of the contact to update.
+    body (ContactModel): The updated information for the specified user's
+    contact. This is passed as JSON data in a request body, and must
+    contain all fields that are not nullable in ContactModel, including
+    first_name, last_name, email and phone number. It may also include
+    birthday and additional data if desired by the user making this call.
 
     :param contact_id: int: Identify the contact that is being deleted
     :param body: ContactModel: Pass in the new contact information
@@ -134,9 +134,9 @@ async def remove(contact_id: int, user: User, db: Session):
     """
     The remove function removes a contact from the database.
     Args:
-        contact_id (int): The id of the contact to be removed.
-        user (User): The user who is removing the contact.
-        db (Session): A connection to our database, used for querying and updating data.
+    contact_id (int): The id of the contact to be removed.
+    user (User): The user who is removing the contact.
+    db (Session): A connection to our database, used for querying and updating data.
 
     :param contact_id: int: Specify the id of the contact to be removed
     :param user: User: Get the user_id from the user object

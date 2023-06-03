@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to REST API's documentation!
+Welcome to Rest API's documentation!
 ====================================
 
 .. toctree::
@@ -11,7 +11,7 @@ Welcome to REST API's documentation!
    :caption: Contents:
 
 
-REST API main
+Rest API main
 ===================
 .. automodule:: main
   :members:
@@ -19,7 +19,7 @@ REST API main
   :show-inheritance:
 
 
-REST API repository Contacts
+Rest API repository Contacts
 =============================
 .. automodule:: src.repository.contacts
   :members:
@@ -27,7 +27,7 @@ REST API repository Contacts
   :show-inheritance:
 
 
-REST API repository Users
+Rest API repository Users
 ==========================
 .. automodule:: src.repository.users
   :members:
@@ -35,7 +35,7 @@ REST API repository Users
   :show-inheritance:
 
 
-REST API routes Contacts
+Rest API routes Contacts
 =========================
 .. automodule:: src.routes.contacts
   :members:
@@ -43,7 +43,7 @@ REST API routes Contacts
   :show-inheritance:
 
 
-REST API routes Auth
+Rest API routes Auth
 =========================
 .. automodule:: src.routes.auth
   :members:
@@ -51,7 +51,7 @@ REST API routes Auth
   :show-inheritance:
 
 
-REST API service Auth
+Rest API service Auth
 =========================
 .. automodule:: src.services.auth
   :members:
@@ -59,7 +59,7 @@ REST API service Auth
   :show-inheritance:
 
 
-REST API service Email
+Rest API service Email
 =========================
 .. automodule:: src.services.email
   :members:
@@ -67,7 +67,7 @@ REST API service Email
   :show-inheritance:
 
 
-REST API service Roles
+Rest API service Roles
 =========================
 .. automodule:: src.services.roles
   :members:

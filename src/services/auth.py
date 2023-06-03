@@ -49,10 +49,10 @@ class Auth:
     async def create_access_token(self, data: dict, expires_delta: Optional[float] = None):
         """
         The create_access_token function creates a new access token.
-            Args:
-                data (dict): A dictionary containing the claims to be encoded in the JWT.
-                expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,
-                    the access token should last before expiring. If not specified, it defaults to 60 minutes.
+        Args:
+        data (dict): A dictionary containing the claims to be encoded in the JWT.
+        expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,
+        the access token should last before expiring. If not specified, it defaults to 60 minutes.
 
         :param self: Access the class attributes and methods
         :param data: dict: Pass the data that will be encoded in the jwt
@@ -73,8 +73,8 @@ class Auth:
         """
         The create_refresh_token function creates a refresh token for the user.
         Args:
-            data (dict): A dictionary containing the user's id and username.
-            expires_delta (Optional[float]): The number of seconds until the token expires, defaults to None.
+        data (dict): A dictionary containing the user's id and username.
+        expires_delta (Optional[float]): The number of seconds until the token expires, defaults to None.
 
         :param self: Represent the instance of the class
         :param data: dict: Pass the user's id to the function
@@ -111,8 +111,8 @@ class Auth:
     async def get_current_user(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
         """
         The get_current_user function is a dependency that will be used in the
-            protected endpoints. It takes a token as an argument and returns the user
-            if it's valid, or raises an exception otherwise.
+        protected endpoints. It takes a token as an argument and returns the user
+        if it's valid, or raises an exception otherwise.
 
         :param self: Access the class attributes
         :param token: str: Get the token from the authorization header

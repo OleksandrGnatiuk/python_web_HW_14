@@ -33,10 +33,10 @@ async def get_contacts(limit: int = Query(default=10),
     """
     The get_contacts function returns a list of contacts.
     The function accepts the following parameters:
-        limit (int): The number of contacts to return. Defaults to 10 if not specified.
-        offset (int): The number of contacts to skip before returning results. Defaults to 0 if not specified.
-        first_name (str): A string containing the first name for which you want results returned,
-        or None if you don't want this parameter used in your search query.
+    limit (int): The number of contacts to return. Defaults to 10 if not specified.
+    offset (int): The number of contacts to skip before returning results. Defaults to 0 if not specified.
+    first_name (str): A string containing the first name for which you want results returned,
+    or None if you don't want this parameter used in your search query.
 
     :param limit: int: Limit the number of contacts returned
     :param offset: int: Skip the first n contacts

@@ -2,7 +2,7 @@ import sys
 import os
 
 sys.path.append(os.path.abspath('..'))
-project = 'REST API'
+project = 'Rest API'
 copyright = '2023, Oleksandr Gnatiuk'
 author = 'Oleksandr Gnatiuk'
 
@@ -13,3 +13,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'nature'
 html_static_path = ['_static']
+
