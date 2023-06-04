@@ -1,2 +1,32 @@
-# python_web_HW_14
-FastAPI + Unittest
+# python_web_HW_14: 
+## CONTACT BOOK
+
+( FastAPI, POSTGRESQL, SQLAlchemy, docker, redis, unittest, pytest, ...)
+
+### Змінні оточення:
+```python
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB_NAME=
+POSTGRES_DOMAIN=
+POSTGRES_PORT=
+
+SQLALCHEMY_DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_DOMAIN}:${POSTGRES_PORT}/${POSTGRES_DB_NAME}
+
+JWT_SECRET_KEY = 
+JWT_ALGORITHM = 
+
+REDIS_HOST=
+REDIS_PORT=
+
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_FROM=${MAIL_USERNAME}
+MAIL_PORT=
+MAIL_SERVER=
+```
+
+### Запуск тестів:
+```bash
+pytest --cov=. --cov-report html tests/
+```

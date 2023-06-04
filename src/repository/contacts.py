@@ -22,6 +22,12 @@ async def get_contacts(limit: int, offset: int, first_name: str, last_name: str,
     :param db: Session: Access the database
     :return: A list of contacts
     """
+    if first_name:
+        first_name = first_name.lower().capitalize()
+    if last_name:
+        last_name = last_name.lower().capitalize()
+    if email:
+        email = email.lower()
     first_name_query = db.query(Contact).filter(and_(Contact.first_name == first_name, Contact.user_id == user.id))
     last_name_query = db.query(Contact).filter(and_(Contact.last_name == last_name, Contact.user_id == user.id))
     email_query = db.query(Contact).filter(and_(Contact.email == email, Contact.user_id == user.id))
@@ -80,7 +86,7 @@ async def search_contacts_by_birthday(limit: int, offset: int, user: User, db: S
         y, m, d, *_ = contact.birthday.split('-')
         contact_birthday = datetime(year=current_year, month=int(m), day=int(d))
 
-        if today <= contact_birthday <= today + timedelta(days=7):
+        if today.date() <= contact_birthday.date() <= (today + timedelta(days=7)).date():
             birthdays_in_period.append(contact)
     return birthdays_in_period
 

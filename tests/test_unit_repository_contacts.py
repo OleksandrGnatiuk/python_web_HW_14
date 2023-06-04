@@ -1,5 +1,5 @@
 import unittest
-from datetime import date
+from datetime import datetime, timedelta
 from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 from src.database.models import Contact, User
@@ -22,27 +22,41 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
             birthday="1976-03-07"
         )
 
+    async def test_get_contacts_birthdays(self):
+        today = datetime.today()
+
+        # Mock Contact objects with different birthdays
+        contacts = [Contact(birthday=(today + timedelta(days=i)).strftime("%Y-%m-%d")) for i in range(5)]
+
+        # Set the last contact's birthday to be outside the 7-day period
+        contacts[-1].birthday = (today + timedelta(days=8)).strftime("%Y-%m-%d")
+
+        # Mock the query method of the session to return the contacts
+        self.session.query().filter().limit().offset().all.return_value = contacts
+
+        result = await search_contacts_by_birthday(limit=10, offset=0, user=self.user, db=self.session)
+        print(result)
+
+        self.assertEqual(len(result), 4)  # Only the first 4 contacts should be within the 7-day period
+
     async def test_get_contact_id(self):
         contacts = [self.test_contact, Contact(), Contact()]
-        query_mock = self.session.query.return_value
-        query_mock.filter.return_value = query_mock
-        query_mock.first.return_value = contacts
+        query_mock = self.session.query(Contact).filter().first.return_value = contacts
         result = await get_contact_by_id(contact_id=self.test_contact.id, user=self.user, db=self.session)
         self.assertEqual(result[0], self.test_contact)
 
     async def test_get_contacts(self):
-        contacts = [Contact(), Contact(), Contact()]
-        query_mock = self.session.query.return_value
-        query_mock.filter.return_value = query_mock
-        query_mock.offset.return_value = query_mock
-        query_mock.limit.return_value = query_mock
-        query_mock.all.return_value = contacts
+        contacts = [Contact() for _ in range(5)]
+        query_mock = self.session.query(Contact).limit().offset().all.return_value = contacts
         result = await get_contacts(limit=10, offset=0, first_name="", last_name="", email="", user=self.user,
                                     db=self.session)
         self.assertEqual(result, contacts)
 
     async def test_get_contacts_by_firstname(self):
         contacts = [self.test_contact, Contact(), Contact()]
+        # query_mock = self.session.query(Contact).filter_by().limit().offset().all.return_value = contacts
+
+        """ it was a problem with this mock. ChatGPT recommends such decision:"""
         query_mock = self.session.query.return_value
         query_mock.filter.return_value = query_mock
         query_mock.offset.return_value = query_mock
@@ -77,17 +91,59 @@ class TestContacts(unittest.IsolatedAsyncioTestCase):
                                     db=self.session)
         self.assertEqual(result, contacts)
 
-    # @unittest.skip
-    async def test_get_contacts_birthdays(self):
-        today = date.today()
-        print(today)
-        contacts = [
-            Contact(id=1, first_name='name_1', last_name='test_lastname_1', email='test1@example.com', birthday=today),
-            Contact(id=2, first_name='name_2', last_name='test_lastname_2', email='test2@example.com', birthday=today),
-        ]
-        self.session.query().filter().offset().limit().all.return_value = contacts
+    async def test_get_contacts_by_firstname_and_lastname(self):
+        contacts = [self.test_contact, Contact(), Contact()]
+        query_mock = self.session.query.return_value
+        query_mock.filter.return_value = query_mock
+        query_mock.offset.return_value = query_mock
+        query_mock.limit.return_value = query_mock
+        query_mock.union.return_value = query_mock
+        query_mock.all.return_value = contacts
+        result = await get_contacts(limit=10, offset=0, first_name=self.test_contact.first_name,
+                                    last_name=self.test_contact.last_name,
+                                    email="", user=self.user,
+                                    db=self.session)
+        self.assertEqual(result, contacts)
 
-        result = await search_contacts_by_birthday(limit=10, offset=0, db=self.session, user=self.user)
+    async def test_get_contacts_by_firstname_and_email(self):
+        contacts = [self.test_contact, Contact(), Contact()]
+        query_mock = self.session.query.return_value
+        query_mock.filter.return_value = query_mock
+        query_mock.offset.return_value = query_mock
+        query_mock.limit.return_value = query_mock
+        query_mock.union.return_value = query_mock
+        query_mock.all.return_value = contacts
+        result = await get_contacts(limit=10, offset=0, first_name=self.test_contact.first_name, last_name="",
+                                    email=self.test_contact.email, user=self.user,
+                                    db=self.session)
+        self.assertEqual(result, contacts)
+
+    async def test_get_contacts_by_lastname_and_email(self):
+        contacts = [self.test_contact, Contact(), Contact()]
+        query_mock = self.session.query.return_value
+        query_mock.filter.return_value = query_mock
+        query_mock.offset.return_value = query_mock
+        query_mock.limit.return_value = query_mock
+        query_mock.union.return_value = query_mock
+        query_mock.all.return_value = contacts
+        result = await get_contacts(limit=10, offset=0, first_name="",
+                                    last_name=self.test_contact.last_name,
+                                    email=self.test_contact.email, user=self.user,
+                                    db=self.session)
+        self.assertEqual(result, contacts)
+
+    async def test_get_contacts_by_firstname_and_lastname_and_email(self):
+        contacts = [self.test_contact, Contact(), Contact()]
+        query_mock = self.session.query.return_value
+        query_mock.filter.return_value = query_mock
+        query_mock.offset.return_value = query_mock
+        query_mock.limit.return_value = query_mock
+        query_mock.union.return_value = query_mock
+        query_mock.all.return_value = contacts
+        result = await get_contacts(limit=10, offset=0, first_name=self.test_contact.first_name,
+                                    last_name=self.test_contact.last_name,
+                                    email=self.test_contact.email, user=self.user,
+                                    db=self.session)
         self.assertEqual(result, contacts)
 
     async def test_create_contact(self):
